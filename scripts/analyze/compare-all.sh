@@ -11,7 +11,8 @@ cmp_exe="${cur_dir}/compare.sh"
 # Compare
 cd "${dir}"
 prev=""
-ls -d "*/" | while read dir; do
+ls -d */ | while read dir; do
+    dir="${dir%/}"
     if ! [ -z "${prev}" ]; then
         "${cmp_exe}" "${prev}" "${dir}"
     fi
