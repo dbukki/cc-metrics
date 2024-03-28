@@ -12,11 +12,11 @@ find_package(Boost REQUIRED
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(ccexcmp
-    main.cpp
-    compare.cpp
-    parse.cpp
-    metrics.cpp
-    snapshot.cpp)
+    source/main.cpp
+    source/compare.cpp
+    source/parse.cpp
+    source/metrics.cpp
+    source/snapshot.cpp)
 
 target_link_libraries(ccexcmp
     ${Boost_LIBRARIES})
