@@ -31,6 +31,10 @@ popd > $null
 # Locate compile commands
 if ! [ -f "${cmp_cmds}" ]; then
 	cmp_cmds="${bld_dir}/${cmp_cmds}"
+	if ! [ -f "${cmp_cmds}" ]; then
+		echo "Error: Compile commands file not found."
+		exit 1
+	fi
 fi
 
 # Return to original dir

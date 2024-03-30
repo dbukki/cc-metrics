@@ -20,7 +20,7 @@ fi
 
 # Parse all tags one-by-one
 cat "${tag_log}" | while read tag; do
-	echo "\n --- Parsing tag \"${tag}\" ---\n"
+	echo -e "\n --- Parsing tag \"${tag}\" ---\n"
 	git checkout "tags/${tag}"
 	"${parser}" "${name}" --extract-to "${ex_dir}/${tag}"
 done
