@@ -31,7 +31,9 @@ fi
 
 # Parse all tags one-by-one
 while read tag; do
-	echo -e "\n --- Parsing tag \"${tag}\" ---\n"
-	git checkout "tags/${tag}"
-	"${parser}" "${name}" --extract-to "${ex_dir}/${tag}"
+	if ! [ -z "${tag}" ]; then
+		echo -e "\n --- Parsing tag \"${tag}\" ---\n"
+		git checkout "tags/${tag}"
+		"${parser}" "${name}" --extract-to "${ex_dir}/${tag}"
+	fi
 done < "${tag_log}"
