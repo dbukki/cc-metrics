@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 metrics_registry::metrics_registry(const string& file) :
     _values(), _rejects()
 {
@@ -64,9 +65,6 @@ double metrics_delta::corr() const
     {
         const dif_t  c = value.second.code;
         const double m = value.second.value;
-
-        //if (c != 0 || m != 0)
-        //    cout << "c=" << c << ", m=" << m << '\n';
 
         sum_c  += c;
         sum_c2 += c * c;

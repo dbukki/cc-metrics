@@ -51,5 +51,5 @@ public:
     snapshot_delta(const std::string& old_dir, const std::string& new_dir);
 
 public:
-    void dump(std::ostream& out);
+    void dump(std::ostream& out) const;
 };

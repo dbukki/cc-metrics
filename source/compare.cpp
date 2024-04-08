@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 size_t lcs(const string& a, const string& b)
 {
     vector<size_t> buf(b.length() + 1, 0);

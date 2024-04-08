@@ -4,11 +4,6 @@
 
 using namespace std;
 
-//#define DEBUG_TEST
-#ifdef DEBUG_TEST
-#include "compare.h"
-#include "parse.h"
-#endif
 
 enum main_error
 {
@@ -29,23 +24,9 @@ main_error error(main_error e)
     }
     return e;
 }
+
 int main(int argc, const char** argv)
 {
-#ifdef DEBUG_TEST
-    string l = get_all("/home/dani/Artifacts/Extract/cjson-1.7.0/Code/258.ccx");
-    string r = get_all("/home/dani/Artifacts/Extract/cjson-1.7.9/Code/118.ccx");
-    size_t c = lcs(l, r);
-    cout << "|L|: " << l.length() << endl;
-    cout << "|R|: " << r.length() << endl;
-    cout << "LCS: " << c << endl;
-    cout << "DIF: " << (l.length() + r.length() - 2 * c) << endl;
-    return 0;
-#endif
-
-#ifdef DEBUG_TEST
-    string old_dir = "/home/dani/Artifacts/Extract/tiny0";
-    string new_dir = "/home/dani/Artifacts/Extract/tiny1";
-#else
     if (argc < 3)
         return error(not_enough);
 
@@ -56,7 +37,6 @@ int main(int argc, const char** argv)
     string new_dir(argv[2]);
     if (new_dir.empty())
         return error(undef_new);
-#endif
 
     snapshot_delta delta(old_dir, new_dir);
     delta.dump(cout);

@@ -1,11 +1,12 @@
 #include "config.h"
 #include "snapshot.h"
-#include "parse.h"
+#include "codecache.h"
 
 #include <boost/filesystem.hpp>
 
 using namespace std;
 using namespace boost::filesystem;
+
 
 snapshot::snapshot(const string& dir) :
     _metrics()
@@ -57,7 +58,7 @@ snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
     }
 }
 
-void snapshot_delta::dump(ostream& out)
+void snapshot_delta::dump(ostream& out) const
 {
     for (const auto& metrics : _metrics)
         out << metrics.first << ":\t" << metrics.second->corr() << '\n';
