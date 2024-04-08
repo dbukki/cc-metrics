@@ -29,6 +29,7 @@ metrics_registry::metrics_registry(const string& file) :
     }
 }
 
+
 common_metrics::common_metrics(const metrics_registry& left, const metrics_registry& right) :
     _values()
 {
@@ -39,6 +40,7 @@ common_metrics::common_metrics(const metrics_registry& left, const metrics_regis
             _values.emplace(l.first, data{ l.second, r->second });
     }
 }
+
 
 metrics_delta::metrics_delta() :
     _values()

@@ -1,5 +1,4 @@
 #include "parse.h"
-#include "config.h"
 
 #include <fstream>
 #include <sstream>

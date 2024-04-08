@@ -26,6 +26,7 @@ const string& code_cache::get(size_t id)
     return it->second;
 }
 
+
 code_pair_cache::code_pair_cache(const string& left, const string& right) :
     _cache(), _left_cache(left), _right_cache(right)
 {

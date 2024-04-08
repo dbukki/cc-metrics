@@ -21,6 +21,7 @@ snapshot::snapshot(const string& dir) :
     }
 }
 
+
 common_snapshot::common_snapshot(const snapshot& left, const snapshot& right) :
     _metrics()
 {
@@ -31,6 +32,7 @@ common_snapshot::common_snapshot(const snapshot& left, const snapshot& right) :
             _metrics.emplace(l.first, make_unique<common_metrics>(*l.second, *r->second));
     }
 }
+
 
 snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
     _metrics()
