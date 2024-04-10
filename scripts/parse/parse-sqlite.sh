@@ -7,8 +7,9 @@ name="$1"; shift
 
 # Constants
 parser="${cur_dir}/parse.sh"
-db="sqlite:database=ccdb.sqlite"
+dbfile="ccdb.sqlite"
+dbcs="sqlite:database=${dbfile}"
 
 # Parse
-"${parser}" "${name}" "${db}" "$@"
-
+rm "${dbfile}"
+"${parser}" "${name}" "${dbcs}" "$@"

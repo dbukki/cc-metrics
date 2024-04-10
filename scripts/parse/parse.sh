@@ -4,7 +4,7 @@
 cur_path=$(readlink -f "$0")
 cur_dir=$(dirname "${cur_path}")
 name="$1"; shift
-db="$1"; shift
+dbcs="$1"; shift
 
 # Constants
 null="/dev/null"
@@ -46,7 +46,7 @@ popd > $null
 	-n "${name}" \
 	-i "${repo_dir}" \
 	-i "${repo_dir}/${cmp_cmds}" \
-	-d "${db}" \
+	-d "${dbcs}" \
 	-j $num_threads \
 	-f \
 	"$@"

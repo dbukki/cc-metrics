@@ -7,8 +7,7 @@ name="$1"; shift
 
 # Constants
 parser="${cur_dir}/parse.sh"
-db="pgsql:host=localhost;port=5432;user=compass;password=ccdb;database=ccdb"
+dbcs="pgsql:host=localhost;port=5432;user=compass;password=ccdb;database=ccdb"
 
 # Parse
-"${parser}" "${name}" "${db}" "$@"
-
+"${parser}" "${name}" "${dbcs}" "$@"
