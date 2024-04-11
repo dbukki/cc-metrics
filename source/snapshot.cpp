@@ -16,7 +16,8 @@ snapshot::snapshot(const string& dir) :
     {
         if (is_regular_file(p) && p.extension() == REG_EXT)
         {
-            _metrics.emplace(p.filename().string(), make_unique<metrics_registry>(p.string()));
+            path name = p.filename().replace_extension();
+            _metrics.emplace(name.string(), make_unique<metrics_registry>(p.string()));
         }
     }
 }
@@ -63,5 +64,5 @@ snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
 void snapshot_delta::dump(ostream& out) const
 {
     for (const auto& metrics : _metrics)
-        out << metrics.first << ":\t" << metrics.second->corr() << '\n';
+        out << metrics.first << '\t' << metrics.second->corr() << '\n';
 }

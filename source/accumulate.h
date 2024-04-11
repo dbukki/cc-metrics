@@ -40,5 +40,8 @@ public:
     void add_value(const std::string& row, const std::string& value);
 
 public:
-    void dump(std::ostream& out) const;
+    void dump(std::ostream& out,
+        const std::string& col_sep,
+        const std::string& row_sep,
+        const std::string& missing) const;
 };

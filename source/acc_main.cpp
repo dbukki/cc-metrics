@@ -11,8 +11,7 @@ enum main_error
 {
     all_ok,
     not_enough,
-    dir_not_found,
-    undef_ext,
+    no_col_file,
 };
 
 main_error error(main_error e)
@@ -21,43 +20,44 @@ main_error error(main_error e)
     {
         case all_ok: break;
         case not_enough: cerr << "Not enough command-line arguments." << endl; break;
-        case dir_not_found: cerr << "The specified directory does not exist." << endl; break;
-        case undef_ext: cerr << "No filter extension was defined." << endl; break;
+        case no_col_file: cerr << "The specified column registry file does not exist." << endl; break;
     }
     return e;
 }
 
 int main(int argc, const char** argv)
 {
-    if (argc < 3)
+    if (argc < 2)
         return error(not_enough);
 
-    path dir = argv[1];
-    if (dir.empty() || !exists(dir))
-        return error(dir_not_found);
+    path colfile = argv[1];
+    if (colfile.empty() || !exists(colfile))
+        return error(no_col_file);
 
-    path ext(argv[2]);
-    if (ext.empty())
-        return error(undef_ext);
+    string col_sep = argc >= 3 ? unescape(argv[2]) : "\t";
+    string row_sep = argc >= 4 ? unescape(argv[3]) : "\n";
 
     table_accumulator table;
-    directory_iterator it(dir);
-    for (const directory_entry& entry : it)
+    std::ifstream ifs_cols(colfile.c_str());
+    string line;
+    while (getline(ifs_cols, line))
     {
-        path p = entry.path();
-        if (is_regular_file(p) && p.extension() == ext)
+        path p = line;
+        if (exists(p) && is_regular_file(p))
         {
-            std::ifstream ifs(p.c_str());
-            if (ifs)
+            std::ifstream ifs_col(p.c_str());
+            if (ifs_col)
             {
                 table.next_column(p.filename().replace_extension().string());
                 string key, value;
-                while (getline(get_until(ifs, key, '\t'), value))
+                while (getline(get_until(ifs_col, key, '\t'), value))
                     table.add_value(key, value);
             }
         }
+        else if (!p.empty())
+            cerr << "Column file not found: " << p.c_str() << endl;
     }
-    table.dump(cout);
+    table.dump(cout, col_sep, row_sep, "");
 
     return error(all_ok);
 }

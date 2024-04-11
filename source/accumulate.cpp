@@ -40,18 +40,20 @@ void table_accumulator::add_value(const string& row, const string& value)
     _rows.emplace(row);
 }
 
-void table_accumulator::dump(ostream& out) const
+void table_accumulator::dump(ostream& out,
+    const string& col_sep,
+    const string& row_sep,
+    const string& missing) const
 {
     for (const table_column_ptr& col : _cols)
-        out << '\t' << col->name();
-    out << '\n';
+        out << col_sep << col->name();
+    out << row_sep;
 
-    const string missing = "";
     for (const string& row : _rows)
     {
         out << row;
         for (const table_column_ptr& col : _cols)
-            out << '\t' << col->get(row, missing);
-        out << '\n';
+            out << col_sep << col->get(row, missing);
+        out << row_sep;
     }
 }
