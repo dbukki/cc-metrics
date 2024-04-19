@@ -3,9 +3,10 @@
 # Parameters
 cur_path=$(readlink -f "$0")
 cur_dir=$(dirname "${cur_path}")
-dir="$1"; shift
+name="$1"; shift
 
 # Constants
+art_dir="${cur_dir}/../../artifacts/${name}"
 cmp_exe="${cur_dir}/../../build/ccexcmp"
 acc_exe="${cur_dir}/../../build/ccexacc"
 cmp_list="cc-compare.txt"
@@ -14,7 +15,7 @@ col_file="cc-columns.txt"
 res_file="cc-results.txt"
 
 # Ensure existence of compare list
-cd "${dir}"
+cd "${art_dir}"
 if ! [ -f "${cmp_list}" ]; then
     list=""
     while read tag; do

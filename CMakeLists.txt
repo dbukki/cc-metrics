@@ -33,3 +33,12 @@ add_executable(ccexacc
 target_link_libraries(ccexacc
     ${Boost_LIBRARIES})
 
+
+add_executable(ccexsum
+    source/sum_main.cpp
+    source/summarize.cpp
+    source/parse.cpp)
+
+target_link_libraries(ccexsum
+    ${Boost_LIBRARIES})
+

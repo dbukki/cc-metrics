@@ -51,3 +51,19 @@ string unescape(const string& s)
     }
     return res;
 }
+
+vector<string> split(const string& s, const string& delimiter)
+{
+    vector<string> chunks;
+    size_t start = 0;
+    size_t end;
+
+    while ((end = s.find(delimiter, start)) != string::npos)
+    {
+        chunks.emplace_back(s.substr(start, end - start));
+        start = end + delimiter.length();
+    }
+
+    chunks.emplace_back(s.substr(start));
+    return chunks;
+}

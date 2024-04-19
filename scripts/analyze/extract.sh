@@ -10,8 +10,8 @@ null="/dev/null"
 root_dir="${HOME}/CodeCompassProjects"
 repo_dir="${root_dir}/Repos/${name}"
 parser="${cur_dir}/../parse/parse-sqlite.sh"
+art_dir="${cur_dir}/../../artifacts/${name}"
 tag_log="cc-extract-tags.log"
-ex_dir="${cur_dir}/../../artifacts/${name}"
 
 # Ensure valid git repo
 cd "${repo_dir}"
@@ -34,6 +34,6 @@ while read tag; do
 	if ! [ -z "${tag}" ]; then
 		echo -e "\n --- Parsing tag \"${tag}\" ---\n"
 		git checkout "tags/${tag}"
-		"${parser}" "${name}" --extract-to "${ex_dir}/${tag}"
+		"${parser}" "${name}" --extract-to "${art_dir}/${tag}"
 	fi
 done < "${tag_log}"
