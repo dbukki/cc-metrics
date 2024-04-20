@@ -8,7 +8,8 @@ using namespace std;
 
 
 metrics_registry::metrics_registry(const string& file) :
-    _values(), _rejects()
+    _values(),
+    _rejects()
 {
     ifstream ifs(file);
     string name;
@@ -21,11 +22,13 @@ metrics_registry::metrics_registry(const string& file) :
     }
 
     if (!_rejects.empty())
-        cerr << _rejects.size() << " record(s) rejected from " << file << ':' << endl;
-    for (const string& name : _rejects)
     {
-        _values.erase(name);
-        cerr << '\t' << name << endl;
+        cerr << _rejects.size() << '/' << _values.size() << " record(s) rejected from " << file << ":\n";
+        for (const string& name : _rejects)
+        {
+            _values.erase(name);
+            cerr << '\t' << name << '\n';
+        }
     }
 }
 
@@ -76,7 +79,7 @@ double metrics_delta::corr() const
     }
 
     const dif_t  count = _values.size();
-    const double num   = sum_cm         - sum_c * sum_m;
+    const double num   = count * sum_cm - sum_c * sum_m;
     const dif_t  den_c = count * sum_c2 - sum_c * sum_c;
     const double den_m = count * sum_m2 - sum_m * sum_m;
     return num / sqrt(den_c * den_m);

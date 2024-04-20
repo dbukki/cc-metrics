@@ -54,7 +54,7 @@ snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
         for (const auto& metric : metrics.second->values())
         {
             metrics_delta::data d;
-            d.value = metric.second.right.value - metric.second.left.value;
+            d.value = /*metric.second.right.value - */metric.second.left.value;
             d.code = differ.get(metric.second.left.index, metric.second.right.index);
             md.add(metric.first, d);
         }
