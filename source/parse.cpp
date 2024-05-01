@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -66,4 +67,13 @@ vector<string> split(const string& s, const string& delimiter)
 
     chunks.emplace_back(s.substr(start));
     return chunks;
+}
+
+double parse_double(const char* str)
+{
+    char* end;
+    double d = strtod(str, &end);
+    if (end == str)
+        d = NAN;
+    return d;
 }

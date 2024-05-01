@@ -28,14 +28,7 @@ table_parser::table_parser(const string& raw, const string& col_sep, const strin
         _rows[r] = cols[0];
         _cells[r].resize(_cols.size());
         for (size_t c = 0; c < _cols.size(); ++c)
-        {
-            double& cell = _cells[r][c];
-            const char* begin = cols[c + 1].c_str();
-            char* end;
-            cell = strtod(begin, &end);
-            if (end == begin)
-                cell = NAN;
-        }
+            _cells[r][c] = parse_double(cols[c + 1].c_str());
     }
 }
 

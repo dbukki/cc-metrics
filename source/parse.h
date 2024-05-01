@@ -11,3 +11,5 @@ std::string get_all(const std::string& file);
 std::string unescape(const std::string& s);
 
 std::vector<std::string> split(const std::string& s, const std::string& delimiter);
+
+double parse_double(const char* str);
