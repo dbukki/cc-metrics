@@ -12,7 +12,8 @@ acc_exe="${cur_dir}/../../build/ccexacc"
 cmp_list="cc-compare.txt"
 cmp_ext=".log"
 col_file="cc-columns.txt"
-res_file="cc-results.txt"
+res_table_file="cc-results-table.txt"
+res_acc_file="cc-results-acc.txt"
 
 # Ensure existence of compare list
 cd "${art_dir}"
@@ -44,5 +45,5 @@ done < "${cmp_list}"
 echo -e "${cols}" > "${col_file}"
 
 # Accumulate results of comparisons
-echo -e "\n --- Accumulating results into \"${res_file}\" ---\n"
-"${acc_exe}" "${col_file}" " & " " \\\\\\\\\n" | tee "${res_file}"
+echo -e "\n --- Accumulating results into \"${res_table_file}\" and \"${res_acc_file}\" ---\n"
+"${acc_exe}" "${col_file}" "${res_table_file}" "${res_acc_file}" " & " " \\\\\\\\\n"

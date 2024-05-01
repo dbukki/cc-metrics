@@ -8,7 +8,7 @@ filter="$1"; shift
 # Constants
 art_dir="${cur_dir}/../../artifacts"
 sum_exe="${cur_dir}/../../build/ccexsum"
-table_file="cc-results.txt"
+table_file="cc-results-table.txt"
 reg_file="cc-tables.txt"
 res_file="cc-summary.txt"
 
