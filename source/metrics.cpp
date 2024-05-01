@@ -15,7 +15,7 @@ metrics_registry::metrics_registry(const string& file) :
     string name;
     while (get_until(ifs, name, '\t'))
     {
-        data d;
+        entity_data d;
         ifs >> d.value >> d.index;
         if (!_values.emplace(name, d).second)
             _rejects.insert(name);
@@ -34,13 +34,21 @@ metrics_registry::metrics_registry(const string& file) :
 
 
 common_metrics::common_metrics(const metrics_registry& left, const metrics_registry& right) :
+    _left_stats(),
+    _right_stats(),
     _values()
 {
+    _left_stats.accepted = left.values().size();
+    _left_stats.rejected = left.rejects().size();
+
+    _right_stats.accepted = right.values().size();
+    _right_stats.rejected = right.rejects().size();
+
     for (const auto& l : left.values())
     {
         const auto r = right.values().find(l.first);
         if (r != right.values().end())
-            _values.emplace(l.first, data{ l.second, r->second });
+            _values.emplace(l.first, match_data{ l.second, r->second });
     }
 }
 
@@ -51,9 +59,9 @@ metrics_delta::metrics_delta() :
 
 }
 
-bool metrics_delta::add(const string& s, const data& d)
+bool metrics_delta::add(const string& s, const data_point& dp)
 {
-    return _values.emplace(s, d).second;
+    return _values.emplace(s, dp).second;
 }
 
 double metrics_delta::corr() const

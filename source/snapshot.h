@@ -39,7 +39,14 @@ public:
 class snapshot_delta
 {
 public:
-    typedef std::unordered_map<std::string, std::unique_ptr<metrics_delta>> metrics_map;
+    struct metrics_data
+    {
+        metrics_delta delta;
+        common_metrics::metrics_stats left_stats;
+        common_metrics::metrics_stats right_stats;
+    };
+
+    typedef std::unordered_map<std::string, std::unique_ptr<metrics_data>> metrics_map;
 
 private:
     metrics_map _metrics;

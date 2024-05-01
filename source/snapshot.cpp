@@ -45,18 +45,21 @@ snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
 
     snapshot old_snap(old_dir);
     snapshot new_snap(new_dir);
-    common_snapshot common(old_snap, new_snap);
+    common_snapshot snap_dif(old_snap, new_snap);
 
     code_pair_cache differ(old_code_dir.string(), new_code_dir.string());
-    for (const auto& metrics : common.metrics())
+    for (const auto& metrics : snap_dif.metrics())
     {
-        metrics_delta& md = *_metrics.emplace(metrics.first, make_unique<metrics_delta>()).first->second;
-        for (const auto& metric : metrics.second->values())
+        const common_metrics& common = *metrics.second;
+        metrics_data& md = *_metrics.emplace(metrics.first, make_unique<metrics_data>()).first->second;
+        md.left_stats = common.left_stats();
+        md.right_stats = common.right_stats();
+        for (const auto& metric : common.values())
         {
-            metrics_delta::data d;
-            d.value = /*metric.second.right.value - */metric.second.left.value;
-            d.code = differ.get(metric.second.left.index, metric.second.right.index);
-            md.add(metric.first, d);
+            metrics_delta::data_point dp;
+            dp.value = /*metric.second.right.value - */metric.second.left.value;
+            dp.code = differ.get(metric.second.left.index, metric.second.right.index);
+            md.delta.add(metric.first, dp);
         }
     }
 }
@@ -64,5 +67,11 @@ snapshot_delta::snapshot_delta(const string& old_dir, const string& new_dir) :
 void snapshot_delta::dump(ostream& out) const
 {
     for (const auto& metrics : _metrics)
-        out << metrics.first << '\t' << metrics.second->corr() << '\n';
+    {
+        const metrics_data& md = *metrics.second;
+        out << metrics.first << '\t' << md.delta.corr() << '\t'
+            << md.left_stats.accepted << '\t' << md.left_stats.rejected << '\t'
+            << md.right_stats.accepted << '\t' << md.right_stats.rejected << '\t'
+            << md.delta.values().size() << '\n';
+    }
 }

@@ -7,13 +7,13 @@
 class metrics_registry
 {
 public:
-    struct data
+    struct entity_data
     {
         double value;
         std::size_t index;
     };
 
-    typedef std::unordered_map<std::string, data> value_map;
+    typedef std::unordered_map<std::string, entity_data> value_map;
     typedef std::unordered_set<std::string> reject_set;
 
 private:
@@ -31,18 +31,28 @@ public:
 class common_metrics
 {
 public:
-    struct data
+    struct metrics_stats
     {
-        metrics_registry::data left;
-        metrics_registry::data right;
+        std::size_t accepted;
+        std::size_t rejected;
     };
 
-    typedef std::unordered_map<std::string, data> value_map;
+    struct match_data
+    {
+        metrics_registry::entity_data left;
+        metrics_registry::entity_data right;
+    };
+
+    typedef std::unordered_map<std::string, match_data> value_map;
 
 private:
+    metrics_stats _left_stats;
+    metrics_stats _right_stats;
     value_map _values;
 
 public:
+    const metrics_stats& left_stats() const { return _left_stats; }
+    const metrics_stats& right_stats() const { return _right_stats; }
     const value_map& values() const { return _values; }
 
 public:
@@ -52,13 +62,13 @@ public:
 class metrics_delta
 {
 public:
-    struct data
+    struct data_point
     {
         double value;
         std::size_t code;
     };
 
-    typedef std::unordered_map<std::string, data> value_map;
+    typedef std::unordered_map<std::string, data_point> value_map;
 
 private:
     value_map _values;
@@ -70,6 +80,6 @@ public:
     metrics_delta();
 
 public:
-    bool add(const std::string&, const data& d);
+    bool add(const std::string& s, const data_point& dp);
     double corr() const;
 };
